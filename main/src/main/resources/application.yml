@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: demo
+  jackson:
+    date-format: yyyy-MM-dd
+  datasource:
+    username: root
+    password: mysqladmin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/view_data
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+   map-underscore-to-camel-case: true
+  type-aliases-package: edu.cdtc.entity
