@@ -20,6 +20,6 @@ public class IndexController {
     @RequestMapping("get")
     public String  get(){
         LOGGER.info("index page access");
-        return "index.html";
+        return "index";
     }
 }
