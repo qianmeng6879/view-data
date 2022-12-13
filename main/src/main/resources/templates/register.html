@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>用户注册</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ccc;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .error {
+            color: rgb(200, 46, 46)
+        }
+
+        .content {
+            margin-top: 160px;
+        }
+
+        .register_wrapper {
+            padding: 20px 30px;
+            border-radius: 15px;
+            background: white;
+        }
+
+        .button_wrapper {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-4 offset-4">
+                    <div class="register_wrapper">
+                        <div style="display: flex; justify-content: space-between;">
+                            <h2>用户注册</h2>
+                            <a href="/login" style="text-decoration: none; color: rgb(82, 82, 82);">
+                                <h4>去登陆&gt;</h4>
+                            </a>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">用户名</label>
+                            <input autocomplete="off" type="text" class="form-control" id="username">
+                            <span class="error" id="usernameError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">邮箱</label>
+                            <input autocomplete="off" type="text" class="form-control" id="email">
+                            <span class="error" id="emailError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            <input autocomplete="off" type="password" class="form-control" id="password">
+                            <span class="error" id="passwordError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">确认密码</label>
+                            <input autocomplete="off" type="password" class="form-control" id="repassword">
+                            <span class="error" id="repasswordError"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="button_wrapper">
+                                <button type="button" style="width: 100%;" id="register_button" class="btn btn-success">
+                                    注册
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function checkDataIsComple(user) {
+            let flag = true
+            if (!user.username || user.username.trim() == "") {
+                document.getElementById("usernameError").innerText = '用户名为空'
+                flag = false
+            } else {
+                document.getElementById("usernameError").innerText = ''
+            }
+
+            if (!user.email || user.email.trim() == "") {
+                document.getElementById("emailError").innerText = '邮箱为空'
+                flag = false
+            } else {
+                document.getElementById("emailError").innerText = ''
+            }
+
+            if (!user.password || user.password.trim() == "") {
+                document.getElementById("passwordError").innerText = '密码为空'
+                flag = false
+            } else {
+                document.getElementById("passwordError").innerText = ''
+            }
+
+            if (!user.rePassword || user.rePassword.trim() == "") {
+                document.getElementById("repasswordError").innerText = '确认密码为空'
+                flag = false
+            } else if (user.password != user.rePassword) {
+                document.getElementById("repasswordError").innerText = '两次密码不一致'
+                flag = false
+            } else {
+                document.getElementById("repasswordError").innerText = ''
+            }
+
+            return flag
+        }
+
+        document.getElementById("register_button").onclick = function (e) {
+            e.preventDefault()
+            let username = document.getElementById("username").value
+            let password = document.getElementById("password").value
+            let rePassword = document.getElementById("repassword").value
+            let email = document.getElementById("email").value
+            let user = { username, password, rePassword, email }
+
+            // 检查表单元素是否为空
+            if (checkDataIsComple(user)) {
+                let request = new XMLHttpRequest()
+                request.open("POST", "/register")
+                request.setRequestHeader("content-type", "application/json")
+                request.onreadystatechange = function () {
+                    if (request.readyState == 4 && request.status == 200) {
+                        let result = JSON.parse(request.responseText)
+                        console.log(result)
+                        if (result.code == 200) {
+                            location.href = '/login'
+                        } else {
+                            alert(result.message || "服务器错误")
+                        }
+                    }
+                }
+
+                request.send(JSON.stringify(user))
+
+
+            } else {
+                console.log("表单信息不完整")
+            }
+        }
+
+    </script>
+</body>
+
+</html>

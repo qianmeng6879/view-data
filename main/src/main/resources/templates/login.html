@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .login_wrapper {
+            margin-top: 200px;
+        }
+
+        .button_wrapper {
+            display: flex;
+            padding: 0 30px;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-3 offset-4">
+                    <div class="login_wrapper">
+                        <div class="form-group">
+                            <label for="username">用户名</label>
+                            <input type="text" class="form-control" id="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div class="form-group">
+                            <div class="button_wrapper">
+                                <button type="button" id="login_button" style="width: 40%"
+                                    class="btn btn-primary">登录</button>
+                                <button type="button" id="go_register" style="width: 40%" class="btn btn-success">
+                                    注册
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script>
+        // 判断是否为空
+        function isBlank(value) {
+            if (value) {
+                if (value.trim() != '') {
+                    return false
+                }
+            }
+            return true
+        }
+
+        document.getElementById("go_register").onclick = function (e) {
+            window.location.href = '/register'
+        }
+
+        document.getElementById("login_button").onclick = function (e) {
+            let username = document.getElementById("username").value
+            let password = document.getElementById("password").value
+
+            if (isBlank(username) || isBlank(password)) {
+                return alert("用户名或密码为空")
+            }
+            let request = new XMLHttpRequest()
+            request.open("POST", "/login")
+            request.setRequestHeader("content-type", "application/json")
+
+            request.onreadystatechange = function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    let data = JSON.parse(request.responseText)
+                    if (data.code == 200) {
+                        location.href = '/data'
+                    } else {
+                        alert(data.message)
+                    }
+                    console.log(data)
+                }
+            }
+
+            request.send(JSON.stringify({
+                username,
+                password
+            }))
+        }
+    </script>
+</body>
+
+</html>
