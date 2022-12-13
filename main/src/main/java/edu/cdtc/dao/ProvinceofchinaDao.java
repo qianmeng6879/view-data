@@ -1,5 +1,6 @@
 package edu.cdtc.dao;
 
+import edu.cdtc.dto.EpidemicData;
 import edu.cdtc.entity.Provinceofchina;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,9 @@ import java.util.List;
  * @since 2022-12-08 10:42:14
  */
 public interface ProvinceofchinaDao {
+
+    EpidemicData findEpidemicData();
+
 
     /**
      * 通过ID查询单条数据

@@ -3,6 +3,8 @@ package edu.cdtc.service.impl;
 import edu.cdtc.dao.UserDao;
 import edu.cdtc.entity.User;
 import edu.cdtc.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     private UserDao userDao;
 
@@ -45,6 +49,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean save(User user) {
+        if (userDao.selectByUsername(user.getUsername()) != null) {
+            LOGGER.info("{} 用户名已存在", user.getUsername());
+            return false;
+        }
+        if (user.getAge() == null) {
+            user.setAge(0);
+        }
         return userDao.insert(user) > 0;
     }
 }

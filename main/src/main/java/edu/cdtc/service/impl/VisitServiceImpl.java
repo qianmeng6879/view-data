@@ -21,6 +21,11 @@ public class VisitServiceImpl implements VisitService {
     @Resource
     private VisitDao visitDao;
 
+    @Override
+    public long count() {
+        return visitDao.count(null);
+    }
+
     /**
      * 通过ID查询单条数据
      *

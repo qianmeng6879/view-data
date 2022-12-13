@@ -21,6 +21,11 @@ public class PatientServiceImpl implements PatientService {
     @Resource
     private PatientDao patientDao;
 
+    @Override
+    public int count() {
+        return patientDao.count(null);
+    }
+
     /**
      * 通过ID查询单条数据
      *

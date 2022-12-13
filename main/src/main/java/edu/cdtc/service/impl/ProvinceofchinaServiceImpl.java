@@ -3,12 +3,19 @@ package edu.cdtc.service.impl;
 import edu.cdtc.dao.ProvinceofchinaDao;
 import edu.cdtc.entity.Provinceofchina;
 import edu.cdtc.service.ProvinceofchinaService;
+import edu.cdtc.dto.EpidemicData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * (Provinceofchina)表服务实现类
@@ -18,8 +25,18 @@ import javax.annotation.Resource;
  */
 @Service("provinceofchinaService")
 public class ProvinceofchinaServiceImpl implements ProvinceofchinaService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProvinceofchinaServiceImpl.class);
     @Resource
     private ProvinceofchinaDao provinceofchinaDao;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    @Override
+    public EpidemicData getEpidemicData() {
+        EpidemicData epidemicData = provinceofchinaDao.findEpidemicData();
+        LOGGER.info(epidemicData.toString());
+        epidemicData.setTime(DATE_TIME_FORMATTER.format(LocalDate.now()));
+        return epidemicData;
+    }
 
     /**
      * 通过ID查询单条数据

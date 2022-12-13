@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
  * @since 2022-12-08 10:46:30
  */
 public interface VisitService {
+    long count();
 
     /**
      * 通过ID查询单条数据

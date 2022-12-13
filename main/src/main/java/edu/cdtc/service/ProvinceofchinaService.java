@@ -1,6 +1,7 @@
 package edu.cdtc.service;
 
 import edu.cdtc.entity.Provinceofchina;
+import edu.cdtc.dto.EpidemicData;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -11,6 +12,9 @@ import org.springframework.data.domain.PageRequest;
  * @since 2022-12-08 10:46:30
  */
 public interface ProvinceofchinaService {
+
+    EpidemicData getEpidemicData();
+
 
     /**
      * 通过ID查询单条数据

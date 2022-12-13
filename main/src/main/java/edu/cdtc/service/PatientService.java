@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
  */
 public interface PatientService {
 
+    int count();
+
     /**
      * 通过ID查询单条数据
      *

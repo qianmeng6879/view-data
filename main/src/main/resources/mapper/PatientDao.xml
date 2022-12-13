@@ -78,7 +78,7 @@
     from view_data.patient
     </select>
     <!--统计总行数-->
-    <select id="count" resultType="java.lang.Long">
+    <select id="count" resultType="java.lang.Integer">
         select count(1)
         from patient
         <where>

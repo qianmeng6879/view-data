@@ -37,7 +37,7 @@ public interface PatientDao {
      * @param patient 查询条件
      * @return 总行数
      */
-    long count(Patient patient);
+    int count(Patient patient);
 
     /**
      * 新增数据
