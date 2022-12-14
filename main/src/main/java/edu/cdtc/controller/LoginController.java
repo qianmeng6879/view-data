@@ -2,7 +2,6 @@ package edu.cdtc.controller;
 
 import edu.cdtc.entity.User;
 import edu.cdtc.service.UserService;
-import edu.cdtc.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

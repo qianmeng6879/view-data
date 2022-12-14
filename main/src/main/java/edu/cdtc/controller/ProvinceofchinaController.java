@@ -1,5 +1,6 @@
 package edu.cdtc.controller;
 
+import edu.cdtc.dto.EpidemicData;
 import edu.cdtc.entity.Provinceofchina;
 import edu.cdtc.service.ProvinceofchinaService;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,18 @@ public class ProvinceofchinaController {
     @GetMapping
     public ResponseEntity<Page<Provinceofchina>> queryByPage(Provinceofchina provinceofchina, PageRequest pageRequest) {
         return ResponseEntity.ok(this.provinceofchinaService.queryByPage(provinceofchina, pageRequest));
+    }
+    //显示
+    @RequestMapping("show")
+    public void text(){
+        EpidemicData d1 =provinceofchinaService.getEpidemicData();
+        System.out.println(d1);
+    }
+
+    @ResponseBody
+    @RequestMapping("/map")
+    public Object mapData(){
+        return provinceofchinaService.getMapData();
     }
 
     /**

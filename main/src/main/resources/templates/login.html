@@ -75,6 +75,7 @@
             if (isBlank(username) || isBlank(password)) {
                 return alert("用户名或密码为空")
             }
+
             let request = new XMLHttpRequest()
             request.open("POST", "/login")
             request.setRequestHeader("content-type", "application/json")

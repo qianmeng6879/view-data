@@ -1,6 +1,7 @@
 package edu.cdtc.service.impl;
 
 import edu.cdtc.dao.ProvinceofchinaDao;
+import edu.cdtc.dto.MapData;
 import edu.cdtc.entity.Provinceofchina;
 import edu.cdtc.service.ProvinceofchinaService;
 import edu.cdtc.dto.EpidemicData;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * (Provinceofchina)表服务实现类
@@ -36,6 +38,11 @@ public class ProvinceofchinaServiceImpl implements ProvinceofchinaService {
         LOGGER.info(epidemicData.toString());
         epidemicData.setTime(DATE_TIME_FORMATTER.format(LocalDate.now()));
         return epidemicData;
+    }
+
+    @Override
+    public List<MapData> getMapData() {
+        return provinceofchinaDao.findMap();
     }
 
     /**

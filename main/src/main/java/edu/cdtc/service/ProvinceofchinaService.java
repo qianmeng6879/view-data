@@ -1,9 +1,12 @@
 package edu.cdtc.service;
 
+import edu.cdtc.dto.MapData;
 import edu.cdtc.entity.Provinceofchina;
 import edu.cdtc.dto.EpidemicData;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 /**
  * (Provinceofchina)表服务接口
@@ -14,6 +17,8 @@ import org.springframework.data.domain.PageRequest;
 public interface ProvinceofchinaService {
 
     EpidemicData getEpidemicData();
+
+    List<MapData> getMapData();
 
 
     /**

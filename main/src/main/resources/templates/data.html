@@ -158,12 +158,88 @@
             </div>
         </div>
     </div>
-
+    <script src="/static/js/echarts.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
-    <script src="/static/js/echarts.js"></script>
     <script src="/static/js/index_js.js"></script>
     <script>
+        function map(map_data) {
+            // 基于准备好的dom，初始化echarts实例
+            let myChart = echarts.init(document.getElementById("main"));
+            let option = {
+                title: {
+                    //标题样式
+                    text: "国内疫情分布图",
+                    x: "center",
+                    textStyle: {
+                        fontSize: 18,
+                        color: "black",
+                    },
+                },
+                tooltip: {
+                    trigger: "item",
+                    formatter: "{b}<br/>{c} (病例)",
+                },
+                visualMap: {
+                    //视觉映射组件
+                    top: "top",
+                    left: "left",
+                    min: 0,
+                    max: 50,
+                    text: ["High", "Low"],
+                    realtime: true, //拖拽时，是否实时更新
+                    calculable: true, //是否显示拖拽用的手柄
+                    inRange: {
+                        color: ["lightgreen", "orange", "red"],
+                    },
+                },
+                series: [
+                    {
+                        name: "疫情数据",
+                        type: "map",
+                        mapType: "china",
+                        roam: false, //是否开启鼠标缩放和平移漫游
+                        itemStyle: {
+                            //地图区域的多边形 图形样式
+                            normal: {
+                                //是图形在默认状态下的样式
+                                label: {
+                                    show: true, //是否显示标签
+                                    textStyle: {
+                                        color: "black",
+                                    },
+                                },
+                            },
+                            zoom: 1.5, //地图缩放比例,默认为1
+                            emphasis: {
+                                //是图形在高亮状态下的样式,比如在鼠标悬浮或者图例联动高亮时
+                                label: { show: true },
+                            },
+                        },
+                        top: "3%", //组件距离容器的距离
+                        data: map_data,
+                    },
+                ],
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+
+        window.onload = function(){
+            let request = new XMLHttpRequest()
+            request.open("GET", "/provinceofchina/map")
+            
+            request.onreadystatechange = function(){
+                if(request.readyState == 4 && request.status == 200){
+                    let mapData = JSON.parse(request.responseText)
+                    console.log(mapData)
+                    map(mapData)
+                }
+            }
+            
+            request.send()
+
+        }
     </script>
 </body>
 
