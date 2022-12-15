@@ -18,7 +18,8 @@
 
     <select id="findEpidemicData" resultType="edu.cdtc.dto.EpidemicData">
        SELECT SUM(confirm) accumulated_diagnosis, SUM(suspect) suspected_case,
-              SUM(dead) die, SUM(deadRate) icu, SUM(nowConfirm) now_confirm
+              SUM(dead) die, SUM(deadRate) icu, SUM(nowConfirm) now_confirm,
+        SUM(heal) heath
         FROM provinceofchina
     </select>
 

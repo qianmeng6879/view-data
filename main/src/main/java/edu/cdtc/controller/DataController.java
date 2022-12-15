@@ -2,13 +2,16 @@ package edu.cdtc.controller;
 
 import edu.cdtc.dto.EpidemicData;
 import edu.cdtc.entity.User;
+import edu.cdtc.entity.UserVisit;
 import edu.cdtc.service.PatientService;
 import edu.cdtc.service.ProvinceofchinaService;
+import edu.cdtc.service.UserVisitService;
 import edu.cdtc.service.VisitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,26 +32,21 @@ public class DataController {
     private ProvinceofchinaService service;
 
     @Autowired
-    private VisitService visitService;
+    private UserVisitService userVisitService;
 
-    @Autowired
-    private PatientService patientService;
-
-    @RequestMapping("/data")
-    public ModelAndView dataPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @RequestMapping("/")
+    public String dataPage(HttpServletRequest request, Model model) throws IOException {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            response.sendRedirect("/login");
-            return null;
+            return "redirect:/login";
         }
 
         EpidemicData epidemicData = service.getEpidemicData();
-        epidemicData.setRegistration(patientService.count());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("data");
-        modelAndView.addObject("data", epidemicData);
-        modelAndView.addObject("visit", visitService.count());
+
+        model.addAttribute("data", epidemicData);
+        model.addAttribute("visit", userVisitService.count());
+
         LOGGER.info(epidemicData.toString());
-        return modelAndView;
+        return "data";
     }
 }

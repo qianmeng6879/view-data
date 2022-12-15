@@ -45,7 +45,9 @@ public class LoginController {
         }
 
         // 设置Session
-        request.getSession().setAttribute("user", user);
+        request.getSession().setAttribute("user", currnetUser);
+
+        LOGGER.info(currnetUser.toString());
 
         map.put("message", "登录成功");
         map.put("code", 200);

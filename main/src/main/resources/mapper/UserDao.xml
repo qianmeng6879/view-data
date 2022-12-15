@@ -4,7 +4,7 @@
 
     <resultMap id="BaseResultMap" type="User">
         <!--@Table user-->
-        <result property="id" column="id" jdbcType="INTEGER"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>

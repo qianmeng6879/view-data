@@ -3,19 +3,19 @@ package edu.cdtc.service.impl;
 import edu.cdtc.dao.ProvinceofchinaDao;
 import edu.cdtc.dto.MapData;
 import edu.cdtc.entity.Provinceofchina;
+import edu.cdtc.service.PatientService;
 import edu.cdtc.service.ProvinceofchinaService;
 import edu.cdtc.dto.EpidemicData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.DateFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -30,13 +30,20 @@ public class ProvinceofchinaServiceImpl implements ProvinceofchinaService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProvinceofchinaServiceImpl.class);
     @Resource
     private ProvinceofchinaDao provinceofchinaDao;
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    @Autowired
+    private PatientService patientService;
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
 
     @Override
     public EpidemicData getEpidemicData() {
         EpidemicData epidemicData = provinceofchinaDao.findEpidemicData();
-        LOGGER.info(epidemicData.toString());
-        epidemicData.setTime(DATE_TIME_FORMATTER.format(LocalDate.now()));
+
+        // 设置登记人数
+        epidemicData.setRegistration(patientService.count());
+
+        epidemicData.setTime(DATE_TIME_FORMATTER.format(LocalDateTime.now()));
         return epidemicData;
     }
 

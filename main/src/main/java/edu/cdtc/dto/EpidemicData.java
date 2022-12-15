@@ -114,7 +114,7 @@ public class EpidemicData {
     public String toString() {
         return "EpidemicData{" +
                 "registration=" + registration +
-                ", newConfirm=" + nowConfirm +
+                ", nowConfirm=" + nowConfirm +
                 ", accumulatedDiagnosis=" + accumulatedDiagnosis +
                 ", symptomatic=" + symptomatic +
                 ", asymptomatic=" + asymptomatic +

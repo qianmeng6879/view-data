@@ -18,10 +18,14 @@
         }
 
         .content {
-            margin-top: 160px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .register_wrapper {
+            width: 450px;
             padding: 20px 30px;
             border-radius: 15px;
             background: white;
@@ -34,10 +38,10 @@
 </head>
 
 <body>
-    <div class="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-4 offset-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-4 offset-4">
+                <div class="content">
                     <div class="register_wrapper">
                         <div style="display: flex; justify-content: space-between;">
                             <h2>用户注册</h2>
@@ -46,23 +50,28 @@
                             </a>
                         </div>
                         <div class="form-group">
-                            <label for="username">用户名</label>
-                            <input autocomplete="off" type="text" class="form-control" id="username">
+                            <!-- <label for="username">用户名</label> -->
+                            <input placeholder="请输入用户名" autocomplete="off" type="text" class="form-control"
+                                id="username">
                             <span class="error" id="usernameError"></span>
                         </div>
                         <div class="form-group">
-                            <label for="email">邮箱</label>
-                            <input autocomplete="off" type="text" class="form-control" id="email">
+                            <!-- <label for="email">邮箱</label> -->
+                            <input placeholder="请输入邮箱" autocomplete="off" type="text" class="form-control" id="email">
                             <span class="error" id="emailError"></span>
                         </div>
                         <div class="form-group">
-                            <label for="password">密码</label>
-                            <input autocomplete="off" type="password" class="form-control" id="password">
+                            <!-- <label for="password">密码</label> -->
+
+                            <input placeholder="请输入密码" autocomplete="off" type="password" class="form-control"
+                                id="password">
+
                             <span class="error" id="passwordError"></span>
                         </div>
                         <div class="form-group">
-                            <label for="password">确认密码</label>
-                            <input autocomplete="off" type="password" class="form-control" id="repassword">
+                            <!-- <label for="password">确认密码</label> -->
+                            <input placeholder="请输入确认密码" autocomplete="off" type="password" class="form-control"
+                                id="repassword">
                             <span class="error" id="repasswordError"></span>
                         </div>
                         <div class="form-group">
@@ -133,15 +142,17 @@
                         console.log(result)
                         if (result.code == 200) {
                             location.href = '/login'
+                        } else if (result.code == 400) {
+                            document.getElementById("usernameError").innerText = result.message
+                        } else if (result.code == 410) {
+                            document.getElementById("emailError").innerText = result.message
                         } else {
-                            alert(result.message || "服务器错误")
+                            alert("服务器错误")
                         }
                     }
                 }
 
                 request.send(JSON.stringify(user))
-
-
             } else {
                 console.log("表单信息不完整")
             }

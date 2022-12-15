@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.cdtc.dao.UserVisitDao">
+    <select id="selectList" resultType="edu.cdtc.entity.UserVisit">
+        SELECT id,ip_addr,user_id,username,create_time FROM user_visit
+    </select>
+
+    <select id="getCount" resultType="_long">
+        SELECT COUNT(*) FROM user_visit
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="edu.cdtc.entity.UserVisit">
+        INSERT INTO user_visit(ip_addr,user_id,username,create_time) VALUES(#{ipAddr}, #{userId}, #{username}, #{createTime})
+    </insert>
+</mapper>

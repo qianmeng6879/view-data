@@ -1,6 +1,7 @@
 package edu.cdtc.controller;
 
 import com.github.aidensuen.util.StringUtil;
+import edu.cdtc.dto.RestData;
 import edu.cdtc.entity.User;
 import edu.cdtc.service.UserService;
 import org.slf4j.Logger;
@@ -25,6 +26,8 @@ public class RegisterController {
     @Autowired
     private UserService userService;
 
+    private static final String EMAIL_PATTERN = "[a-zA-Z0-9]\\w+@(.*?)\\.(.*?)";
+
     @GetMapping("/register")
     public String registerPage() {
         return "register";
@@ -34,8 +37,19 @@ public class RegisterController {
     @PostMapping("/register")
     public Object registerHandler(@RequestBody User user) {
         if (!(StringUtil.hasLength(user.getUsername()) && StringUtil.hasLength(user.getPassword()) && StringUtil.hasLength(user.getEmail()))) {
-            return Map.of("message", "表单信息不完整", "code", 400);
+            RestData restData = new RestData();
+            restData.setCode(200);
+            restData.setMessage("表单信息不完整");
+            return restData;
         }
+
+        if(!user.getEmail().matches(EMAIL_PATTERN)){
+            RestData restData = new RestData();
+            restData.setCode(410);
+            restData.setMessage("邮箱格式错误");
+            return restData;
+        }
+
 
         boolean result = userService.save(user);
 
